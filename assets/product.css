@@ -1,0 +1,23 @@
+.product .grid {
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+}
+
+.product .product__media {
+    overflow: hidden;
+    max-height: 500px;
+}
+
+.product .product__media img {
+    height: 500px;
+}
+
+@media (max-width: 767px) {
+  .product .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .product .product__media{
+    padding: 10px;
+  }
+}

@@ -1,0 +1,22 @@
+{
+    "sections": {
+        "template" :{
+            "type": "template-product",
+            "blocks": {
+                "title":{"type":"title"},
+                "price":{"type":"price"},
+                "desc":{"type":"desc"},
+                "quantity":{"type":"quantity"}
+            },
+            "block_order": [
+                "title",
+                "price",
+                "desc",
+                "quantity"
+            ]
+        }
+    },
+    "order": [
+        "template"
+    ]
+}

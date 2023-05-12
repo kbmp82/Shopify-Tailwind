@@ -1,0 +1,132 @@
+{{ 'product.css' | asset_url | stylesheet_tag }}
+<!-- Optional Theme Stylesheet -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+<div class="container">
+  {% assign selected_variant = product.selected_or_first_available_variant %}
+  <div class="product">
+    <div class="grid">
+      <div class="product__media">
+        <!-- Swiper -->
+        <div class="swiper mySwiper">
+          <div class="swiper-wrapper">
+            {% for media in product.media %}
+              <div class="swiper-slide">
+                {% render 'product-media', media: media %}
+              </div>
+            {% endfor %}
+          </div>
+          <div class="swiper-button-next"></div>
+          <div class="swiper-button-prev"></div>
+        </div>
+      </div>
+      <div class="product__summary">
+        {% form 'product', product %}
+          {% for block in section.blocks %}
+            {% case block.type %}
+              {% when 'title' %}
+              <h1 class="product__title">{{ product.title }}</h1>
+              {% when 'price' %}
+              <div class="product__price">
+                <span class="price compare">{{ selected_variant.compare_at_price | money_with_currency }}</span>
+                <span class="price">{{ selected_variant.price | money_with_currency }}</span>
+                {% if selected_variant.compare_at_price > selected_variant.price %}
+                  <span class="sale-callout">Sale</span>
+                {% endif %}
+              </div>
+
+              {% when 'quantity' %}
+              <div class="product__options">
+                {% unless product.has_only_default_variant %}
+                  <div data-url="{{ product.url }}" data-section="{{ sectioin.id }}">
+                    {% for option in product.options_with_values %}
+                      <label for="Option-{{ product.id }}-{{ forloop.index }}">{{ option.name }}</label>
+                    </div>
+                    <div>
+                      <select name="options[{{ option.name | escape }}]" id="Option-{{ product.id }}-{{ forloop.index }}">
+                        {% for value in option.values %}
+                          <option value="{{ value | escape }}"{% if option.selected_value == value %}selected="selected"{% endif %}>{{ value }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                  {% endfor %}
+                {% endunless %}
+              </div>
+              <div class="product__quantity">
+                <label for="Quantity-{{ product.id }}">Quantity</label>
+                <div class="quantity-input">
+                  <input
+                    type="number"
+                    name="quantity"
+                    id="Quantity-{{ product.id }}"
+                    value="1"
+                    min="1">
+                </div>
+              </div>
+              {% when 'desc' %}
+              <div class="product__desc">
+                {{ product.description }}
+              </div>
+            {% endcase %}
+          {% endfor %}
+          <div class="product__atc">
+            <button
+              type="submit"
+              name="add"
+              {% if selected_variant.available == false %}disabled{% endif %}>
+              {% if selected_variant.available %}
+                Add to Cart
+              {% else %}
+                Out of Stock
+              {% endif %}
+            </button>
+          </div>
+          <input
+            type="hidden"
+            name="id"
+            value="{{ selected_variant.id }}">
+        {% endform %}
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  var swiper = new Swiper(".mySwiper", {
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev"
+    }
+  });
+</script>
+
+{% schema %}
+  {
+    "name": "Product",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "test",
+        "label": "Test check"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "title",
+        "name": "Title",
+        "limit": 1
+      }, {
+        "type": "price",
+        "name": "Price",
+        "limit": 1
+      }, {
+        "type": "quantity",
+        "name": "Quantity",
+        "limit": 1
+      }, {
+        "type": "desc",
+        "name": "Description",
+        "limit": 1
+      }
+    ]
+  }
+{% endschema %}
