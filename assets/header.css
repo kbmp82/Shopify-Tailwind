@@ -1,0 +1,60 @@
+.header {
+    padding: 20px;
+    position: relative;
+}
+
+.header:after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    margin-left: -50vw;
+    width: 100vw;
+    height: 1px;
+    bottom: 0px;
+    background-color: black;
+}
+
+div.header nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+div.header nav .logo,div.header nav .account {
+    flex-basis: 15%;
+}
+
+div.header ul.nav-links,div.header nav .account ul{
+    display: flex;
+    gap: 25px;
+    list-style: none;
+    padding-inline-start: 0;
+    justify-content: center;
+}
+
+div.header ul.nav-links ul.child {
+    list-style: none;
+    padding-inline-start: 0;
+    position: absolute;
+    height: 0;
+    overflow: hidden;
+    opacity: 0;
+    max-height: 0px;
+    transition: all .3s linear;
+}
+
+div.header ul.nav-links li.nested:hover > ul.child  {
+    height: auto;
+    opacity: 1;
+    max-height: 200px;
+}
+
+div.header img {
+    width: 100%;
+    height: auto;
+}
+
+div.header nav svg {
+    max-width: 20px;
+    height: auto;
+}
