@@ -1,7 +1,7 @@
 {{ 'header.css' | asset_url | stylesheet_tag }}
 {% assign se_stts = section.settings %}
 {% assign sid = section.id %}
-<div class="header">
+<div class="header" x-data="{ mobileMenuOpen: false }">
   <div class="container">
     <nav>
       <div class="logo">
@@ -12,44 +12,99 @@
           >
         </div>
       </div>
-      <div class="links">
+      <!-- mobile navigation -->
+      <div class="links mobile" :class="{'open' : mobileMenuOpen}">
+        {% render 'icon_hamburger' %}
+        <div class="mobile-menu" x-show="mobileMenuOpen">
+          <ul class="nav-links">
+            {% for link in linklists['main-menu'].links -%}
+              <div class="link">
+                <li class="{% if link.links != blank %}nested{% endif %}">
+                  {{ link.title | link_to: link.url }}
+                  {% if link.links != blank %}
+                    {% for child in link.links -%}
+                      <ul class="child">
+                        <li>
+                          {{ child.title | link_to: child.url }}
+                        </li>
+                      </ul>
+                    {% endfor %}
+                  {% endif %}
+                </li>
+              </div>
+            {%- endfor %}
+          </ul>
+          <div class="shop-icons">
+            <a href="/cart">{% render 'icon_cart' %}</a>
+            <div class="account">
+              {%- if shop.customer_accounts_enabled -%}
+                <ul>
+                  {%- if customer -%}
+                    <li>
+                      <a href="/account" id="customer_login_link">{% render : 'icon_user' %}</a>
+                    </li>
+                    <li>
+                      {{ 'Log out' | customer_logout_link }}
+                    </li>
+                  {%- else -%}
+                    <li>
+                      <a href="/account" id="customer_login_link">Log In</a>
+                    </li>
+                    <li>
+                      {{ 'Create account' | customer_register_link }}
+                    </li>
+                  {%- endif -%}
+                </ul>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- desktop navigation -->
+      <div class="links desktop">
         <ul class="nav-links">
           {% for link in linklists['main-menu'].links -%}
-            <li class="{% if link.links != blank %}nested{% endif %}">
-              {{ link.title | link_to: link.url }}
-              {% if link.links != blank %}
-                {% for child in link.links -%}
-                  <ul class="child">
-                    <li>
-                      {{ child.title | link_to: child.url }}
-                    </li>
-                  </ul>
-                {% endfor %}
-              {% endif %}
-            </li>
+            <div class="link">
+              <li class="{% if link.links != blank %}nested{% endif %}">
+                {{ link.title | link_to: link.url }}
+                {% if link.links != blank %}
+                  {% for child in link.links -%}
+                    <ul class="child">
+                      <li>
+                        {{ child.title | link_to: child.url }}
+                      </li>
+                    </ul>
+                  {% endfor %}
+                {% endif %}
+              </li>
+            </div>
           {%- endfor %}
         </ul>
-      </div>
-      <div class="account">
-        {%- if shop.customer_accounts_enabled -%}
-          <ul>
-            {%- if customer -%}
-              <li>
-                <a href="/account">Account</a>
-              </li>
-              <li>
-                {{ 'Log out' | customer_logout_link }}
-              </li>
-            {%- else -%}
-              <li>
-                <a href="/account" id="customer_login_link">{% render : 'icon_user' %}</a>
-              </li>
-              <li>
-                {{ 'Create account' | customer_register_link }}
-              </li>
+
+        <div class="shop-icons">
+          <a href="/cart">{% render 'icon_cart' %}</a>
+          <div class="account">
+            {%- if shop.customer_accounts_enabled -%}
+              <ul>
+                {%- if customer -%}
+                  <li>
+                    <a href="/account" id="customer_login_link">{% render : 'icon_user' %}</a>
+                  </li>
+                  <li>
+                    {{ 'Log out' | customer_logout_link }}
+                  </li>
+                {%- else -%}
+                  <li>
+                    <a href="/account" id="customer_login_link">Log In</a>
+                  </li>
+                  <li>
+                    {{ 'Create account' | customer_register_link }}
+                  </li>
+                {%- endif -%}
+              </ul>
             {%- endif -%}
-          </ul>
-        {%- endif -%}
+          </div>
+        </div>
       </div>
     </nav>
   </div>

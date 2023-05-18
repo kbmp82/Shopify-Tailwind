@@ -1,60 +1,144 @@
 .header {
-    padding: 20px;
-    position: relative;
+  padding: 20px;
+  position: relative;
 }
 
 .header:after {
-    content: "";
-    position: absolute;
-    left: 50%;
-    margin-left: -50vw;
-    width: 100vw;
-    height: 1px;
-    bottom: 0px;
-    background-color: black;
+  content: "";
+  position: absolute;
+  left: 50%;
+  margin-left: -50vw;
+  width: 100vw;
+  height: 1px;
+  bottom: 0px;
+  background-color: black;
 }
 
 div.header nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-div.header nav .logo,div.header nav .account {
-    flex-basis: 15%;
+.links.desktop {
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 
-div.header ul.nav-links,div.header nav .account ul{
-    display: flex;
-    gap: 25px;
-    list-style: none;
-    padding-inline-start: 0;
-    justify-content: center;
+div.header ul.nav-links .link {
+  position: relative;
+}
+
+div.header ul.nav-links,
+div.header nav .account ul {
+  display: flex;
+  gap: 25px;
+  list-style: none;
+  padding-inline-start: 0;
+  justify-content: center;
+  width: 100%;
+}
+
+div.header nav .shop-icons {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 25px;
+  flex-basis: 25%;
 }
 
 div.header ul.nav-links ul.child {
-    list-style: none;
-    padding-inline-start: 0;
-    position: absolute;
-    height: 0;
-    overflow: hidden;
-    opacity: 0;
-    max-height: 0px;
-    transition: all .3s linear;
+  list-style: none;
+  padding-inline-start: 0;
+  position: absolute;
+  height: 0;
+  overflow: hidden;
+  opacity: 0;
+  max-height: 0px;
+  transition: all 0.3s linear;
+  box-shadow: 0px 0px 6px 0px #c3c3c3;
+  padding: 20px;
+  border-radius: 4px;
+  visibility: hidden;
 }
 
-div.header ul.nav-links li.nested:hover > ul.child  {
-    height: auto;
-    opacity: 1;
-    max-height: 200px;
+div.header ul.nav-links li.nested:hover > ul.child {
+  height: auto;
+  opacity: 1;
+  visibility: visible;
+  max-height: 200px;
 }
 
 div.header img {
-    width: 100%;
-    height: auto;
+  width: 100%;
+  height: auto;
 }
 
 div.header nav svg {
-    max-width: 20px;
-    height: auto;
+  width: 100%;
+  max-width: 20px;
+  height: auto;
+}
+
+div.header nav a:visited {
+  color: initial;
+}
+
+div.header .links.mobile ul.nav-links {
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
+
+.links.mobile {
+  background: transparent;
+  width: 100vw;
+  margin-left: -50vw;
+  left: 50%;
+  margin-left: -50vw;
+  width: 100vw;
+  position: absolute;
+  z-index: 9;
+  top: 0;
+}
+.mobile-menu {
+  transition: opacity 0.3s ease-in-out;
+  opacity: 0;
+}
+.links.mobile.open {
+  background: rgb(23, 69, 90);
+}
+.links.mobile.open .mobile-menu {
+  opacity: 1;
+}
+
+.links.mobile.open,
+.links.mobile.open a,
+.links.mobile.open a:visited {
+  color: white;
+}
+
+svg.w-6.h-6.hamburger {
+  margin-top: 20px;
+  margin-right: 20px;
+  float: right;
+}
+
+div.header nav .links.mobile .shop-icons {
+  padding: 20px;
+  justify-content: center;
+}
+
+@media (min-width: 1025px) {
+  nav div.links.mobile {
+    display: none;
+  }
+}
+
+@media (max-width: 1024px) {
+  nav div.links.desktop,
+  div.header nav .links.desktop .shop-icons {
+    display: none;
+  }
 }
