@@ -9,6 +9,7 @@ body {
 
 .container {
 max-width: 1390px;
+width: 100%;
 margin-inline: auto;
 }
 
@@ -31,8 +32,4 @@ margin-inline: auto;
 .homepage {
     text-align: center;
     padding-top: 10em;
-}
-
-.logo {
-    width: 25%;
 }

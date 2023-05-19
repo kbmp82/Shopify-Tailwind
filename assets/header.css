@@ -20,14 +20,16 @@ div.header nav {
   align-items: center;
 }
 
-.links.desktop {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
-
 div.header ul.nav-links .link {
   position: relative;
+}
+
+div.menu {
+    flex: 1;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    position: relative;
 }
 
 div.header ul.nav-links,
@@ -37,7 +39,6 @@ div.header nav .account ul {
   list-style: none;
   padding-inline-start: 0;
   justify-content: center;
-  width: 100%;
 }
 
 div.header nav .shop-icons {
@@ -45,7 +46,8 @@ div.header nav .shop-icons {
   justify-content: flex-end;
   align-items: center;
   gap: 25px;
-  flex-basis: 25%;
+  position: absolute;
+  right: 0;
 }
 
 div.header ul.nav-links ul.child {
@@ -85,60 +87,83 @@ div.header nav a:visited {
   color: initial;
 }
 
-div.header .links.mobile ul.nav-links {
-  flex-direction: column;
-  gap: 15px;
-  align-items: center;
-}
-
-.links.mobile {
-  background: transparent;
-  width: 100vw;
-  margin-left: -50vw;
-  left: 50%;
-  margin-left: -50vw;
-  width: 100vw;
-  position: absolute;
-  z-index: 9;
-  top: 0;
-}
-.mobile-menu {
-  transition: opacity 0.3s ease-in-out;
-  opacity: 0;
-}
-.links.mobile.open {
-  background: rgb(23, 69, 90);
-}
-.links.mobile.open .mobile-menu {
-  opacity: 1;
-}
-
-.links.mobile.open,
-.links.mobile.open a,
-.links.mobile.open a:visited {
-  color: white;
-}
-
 svg.w-6.h-6.hamburger {
   margin-top: 20px;
   margin-right: 20px;
   float: right;
 }
 
-div.header nav .links.mobile .shop-icons {
-  padding: 20px;
-  justify-content: center;
-}
 
 @media (min-width: 1025px) {
-  nav div.links.mobile {
+  svg.w-6.h-6.hamburger {
     display: none;
   }
 }
 
 @media (max-width: 1024px) {
-  nav div.links.desktop,
-  div.header nav .links.desktop .shop-icons {
-    display: none;
+    div.menu {
+        flex: unset;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        order: 3;
+        flex-wrap: wrap;
+        position: absolute;
+        left: 100%;
+        opacity: 0;
+        transition: .3s all linear;
+    }
+
+    div.header nav.open div.menu {
+        left: 0;
+        opacity: 1;
+    }
+
+  div.header ul.nav-links {
+    width: 100%;
+    order: 3;
+    flex-wrap: wrap;
+    background-color: rgb(0, 0, 0);
+    padding: 25px 0;
   }
+
+  div.header ul.nav-links a,
+  div.header ul.nav-links a:visited {
+    color: white;
+  }
+
+  div.header nav .shop-icons {
+    flex: unset;
+    width: 100%;
+    justify-content: center;
+    order: 4;
+    background-color: rgb(228, 228, 228);
+    padding: 25px 0;
+    position: relative;
+  }
+
+  div.header nav .shop-icons a,
+  div.header nav .shop-icons a:visited {
+    color: black;
+  }
+
+  div.header ul.nav-links .link {
+    width: 100%;
+    text-align: center;
+  }
+
+  div.header nav {
+    flex-wrap: wrap;
+  }
+
+  div.header a.logo {
+    order: 1;
+    flex: unset;
+  }
+
+  svg.w-6.h-6.hamburger {
+    order: 2;
+  }
+
+  
 }

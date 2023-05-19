@@ -1,67 +1,17 @@
 {{ 'header.css' | asset_url | stylesheet_tag }}
 {% assign se_stts = section.settings %}
 {% assign sid = section.id %}
-<div class="header" x-data="{ mobileMenuOpen: false }">
+<div class="header" x-data="{mobileMenuOpen:false}">
   <div class="container">
-    <nav>
-      <div class="logo">
-        <div class="logo-img">
-          <img
-            src="{{ se_stts.logo | image_url: width: se_stts.logo.width }}"
-            alt="{{ se_stts.logo.alt | escape }}"
-          >
-        </div>
-      </div>
-      <!-- mobile navigation -->
-      <div class="links mobile" :class="{'open' : mobileMenuOpen}">
-        {% render 'icon_hamburger' %}
-        <div class="mobile-menu" x-show="mobileMenuOpen">
-          <ul class="nav-links">
-            {% for link in linklists['main-menu'].links -%}
-              <div class="link">
-                <li class="{% if link.links != blank %}nested{% endif %}">
-                  {{ link.title | link_to: link.url }}
-                  {% if link.links != blank %}
-                    {% for child in link.links -%}
-                      <ul class="child">
-                        <li>
-                          {{ child.title | link_to: child.url }}
-                        </li>
-                      </ul>
-                    {% endfor %}
-                  {% endif %}
-                </li>
-              </div>
-            {%- endfor %}
-          </ul>
-          <div class="shop-icons">
-            <a href="/cart">{% render 'icon_cart' %}</a>
-            <div class="account">
-              {%- if shop.customer_accounts_enabled -%}
-                <ul>
-                  {%- if customer -%}
-                    <li>
-                      <a href="/account" id="customer_login_link">{% render : 'icon_user' %}</a>
-                    </li>
-                    <li>
-                      {{ 'Log out' | customer_logout_link }}
-                    </li>
-                  {%- else -%}
-                    <li>
-                      <a href="/account" id="customer_login_link">Log In</a>
-                    </li>
-                    <li>
-                      {{ 'Create account' | customer_register_link }}
-                    </li>
-                  {%- endif -%}
-                </ul>
-              {%- endif -%}
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- desktop navigation -->
-      <div class="links desktop">
+    <nav class="" :class="{'open' : mobileMenuOpen}">
+      <a href="/" class="logo">
+        <img
+          src="{{ se_stts.logo | image_url: width: se_stts.logo.width }}"
+          alt="{{ se_stts.logo.alt | escape }}"
+        >
+      </a>
+      <!-- navigation -->
+      <div class="menu">
         <ul class="nav-links">
           {% for link in linklists['main-menu'].links -%}
             <div class="link">
@@ -80,7 +30,6 @@
             </div>
           {%- endfor %}
         </ul>
-
         <div class="shop-icons">
           <a href="/cart">{% render 'icon_cart' %}</a>
           <div class="account">
@@ -106,19 +55,44 @@
           </div>
         </div>
       </div>
+      <!-- mobile hamburger -->
+      {% render 'icon_hamburger' %}
     </nav>
   </div>
 </div>
 {% style %}
-  div.header .logo-img {
-  width: 100%;
-  max-width: {{ se_stts.max_width }};
+    div.header {
+      min-height: {{ se_stts.header_height }};
+      display: flex;
+      align-items: center;
+    }
+
+    div.header a > img {
+      width: 100%;
+      max-width: {{ se_stts.max_width }};
+    }
+
+  @media(min-width: 1025px){
+     div.header ul.nav-links {
+      margin-left: -{{ se_stts.max_width }};
+    }
+  }
+  @media(max-width: 1024px){
+    div.header div.menu {
+      top: {{ se_stts.header_height }};
+    }
   }
 {% endstyle %}
 {% schema %}
 {
   "name": "Header",
   "settings": [
+    {
+      "type": "text",
+      "id": "header_height",
+      "default": "150px",
+      "label": "Header Height"
+    },
     {
       "type": "image_picker",
       "id": "logo",
