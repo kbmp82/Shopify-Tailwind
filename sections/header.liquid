@@ -13,8 +13,8 @@
       <!-- navigation -->
       <div class="menu">
         <ul class="nav-links">
-          {% for link in linklists['main-menu'].links -%}
-            <div class="link">
+          {% for link in linklists[se_stts.menu].links -%}
+            <div class="link relative">
               <li class="{% if link.links != blank %}nested{% endif %}">
                 {{ link.title | link_to: link.url }}
                 {% if link.links != blank %}
@@ -32,27 +32,29 @@
         </ul>
         <div class="shop-icons">
           <a href="/cart">{% render 'icon_cart' %}</a>
-          <div class="account">
-            {%- if shop.customer_accounts_enabled -%}
-              <ul>
-                {%- if customer -%}
-                  <li>
-                    <a href="/account" id="customer_login_link">{% render : 'icon_user' %}</a>
-                  </li>
-                  <li>
-                    {{ 'Log out' | customer_logout_link }}
-                  </li>
-                {%- else -%}
-                  <li>
-                    <a href="/account" id="customer_login_link">Log In</a>
-                  </li>
-                  <li>
-                    {{ 'Create account' | customer_register_link }}
-                  </li>
-                {%- endif -%}
-              </ul>
-            {%- endif -%}
-          </div>
+          {% unless shop.customer_accounts_enabled == false %}
+            <div class="account">
+              {%- if shop.customer_accounts_enabled -%}
+                <ul>
+                  {%- if customer -%}
+                    <li>
+                      <a href="/account" id="customer_login_link">{% render : 'icon_user' %}</a>
+                    </li>
+                    <li>
+                      {{ 'Log out' | customer_logout_link }}
+                    </li>
+                  {%- else -%}
+                    <li>
+                      <a href="/account" id="customer_login_link">Log In</a>
+                    </li>
+                    <li>
+                      {{ 'Create account' | customer_register_link }}
+                    </li>
+                  {%- endif -%}
+                </ul>
+              {%- endif -%}
+            </div>
+          {% endunless %}
         </div>
       </div>
       <!-- mobile hamburger -->
@@ -63,8 +65,6 @@
 {% style %}
     div.header {
       min-height: {{ se_stts.header_height }};
-      display: flex;
-      align-items: center;
     }
 
     div.header a > img {
@@ -103,6 +103,12 @@
       "id": "max_width",
       "default": "200px",
       "label": "Max width"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Main menu",
+      "default": "main-menu"
     }
   ]
 }

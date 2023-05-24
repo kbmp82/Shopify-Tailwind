@@ -1,9 +1,12 @@
 .header {
   padding: 20px;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.header:after {
+.header:after { 
   content: "";
   position: absolute;
   left: 50%;
@@ -70,6 +73,8 @@ div.header ul.nav-links li.nested:hover > ul.child {
   opacity: 1;
   visibility: visible;
   max-height: 200px;
+  background: white;
+  z-index: 9;
 }
 
 div.header img {

@@ -1,0 +1,76 @@
+{% assign se_stts = section.settings %}
+{{ '404.css' | asset_url | stylesheet_tag }}
+<div class="max-w-md">
+  <div class="text-5xl font-bold my-4">{{ se_stts.title }}</div>
+  <div class="my-4">
+    <p class="text-base md:text-xl leading-normal">
+      {{ se_stts.subtitle }}
+    </p>
+  </div>
+  <a
+    class="button mt-10 p-5 block"
+    href="{% if se_stts.url == blank %}{{ shop.secure_url }}{% else %}{{ se_stts.url }}{% endif %}"
+  >
+    {{ se_stts.button_label }}
+  </a>
+</div>
+
+{% style %}
+  div#not_found_page a {
+    background-color: {{ se_stts.button_bg }};
+    color: {{ se_stts.button_fc }};
+  }
+  div#not_found_page a:hover {
+    background-color: {{ se_stts.button_bg_h }};
+  }
+{% endstyle %}
+{% schema %}
+{
+  "name": "Template 404",
+  "tag": "section",
+  "class": "flex items-center justify-center text-center py-7 min-h-full",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "404 Heading Title",
+      "default": "404"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "404 Subtitle",
+      "default": "The page you are looking for is not found."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Back to Home"
+    },
+    {
+      "type": "color",
+      "id": "button_bg",
+      "label": "Button Background Color",
+      "default": "#000"
+    },
+    {
+      "type": "color",
+      "id": "button_fc",
+      "label": "Button Font Color",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_h",
+      "label": "Button Background Color (hover)",
+      "default": "#000"
+    },
+    {
+      "type": "url",
+      "id": "redirect_url",
+      "label": "Button URL"
+    }
+  ]
+}
+{% endschema %}

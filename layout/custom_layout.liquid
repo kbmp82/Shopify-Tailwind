@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+  <head>
+    <title>{{ page_title }}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="{{ page_description | escape }}">
+    <link rel="canonical" href="{{ canonical_url }}">
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+    {% if (current_tags) or (template contains "collection" and collection.handle == "all") or (template contains "collection" and collection.handle == "new") %}
+      <meta name="robots" content="noindex, follow">
+    {% endif %}
+    {{ content_for_header }}
+    <!-- Header hook for plugins -->
+    {{ 'application.css' | asset_url | stylesheet_tag }}
+    {{ 'application.js' | asset_url | script_tag }}
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.1/dist/cdn.min.js"></script>
+  </head>
+
+  <body>
+    {% section 'header' %}
+    I AM CUSTOM LAYOUT!
+    <main role="main">
+      {{ content_for_layout }}
+    </main>
+  </body>
+</html>
