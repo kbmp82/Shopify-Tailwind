@@ -1,8 +1,13 @@
 {
-    "sections": {
-      "template" : {
-        "type": "template-blog"
+  "sections": {
+    "template": {
+      "type": "template-blog",
+      "settings": {
+        "max_posts": 10
       }
-    },
-    "order": ["template"]
-  }
+    }
+  },
+  "order": [
+    "template"
+  ]
+}

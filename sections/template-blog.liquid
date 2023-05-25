@@ -1,24 +1,35 @@
-{% paginate blog.articles by 5 %}
-
-  <h1>{{ blog.title }}</h1>
-  {% for article in blog.articles %}
-    <div>
-      <h2>
-        <a href="{{ article.url }}">{{ article.title }}</a>
-      </h2>
-      {{ article.author }} @ {{ article.created_at }}
-      <div>
-        {% if article.excerpt.size > 0 %}
-          {{ article.excerpt }}
-        {% else %}
-          <p>{{ article.content | strip_html | truncatewords: 100 }}</p>
-        {% endif %}
-      </div>
+{% assign se_stts = section.settings %}
+{{ 'blog.css' | asset_url | stylesheet_tag }}
+<div class="container mx-auto px-5 md:px-0 py-10">
+  {% paginate blog.articles by {{ se_stts.max_posts }} %}
+    <div class="flex justify-center mb-8">
+      <h1 class="text-4xl md:text-6xl font-medium">{{ blog.title }}</h1>
     </div>
-  {% endfor %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 mx-auto justify-center px-2 md:px-5 lg:px-0">
+      {% for article in blog.articles %}
+        {% render 'article_card', article: article %}
+      {% endfor %}
+    </div>
+    <div class="max-w-6xl mx-auto text-center">
+      {% render 'pagination', pagination: paginate %}
+    </div>
+  {% endpaginate %}
+</div>
 
-  {% if paginate.pages > 1 %}
-    {{ paginate | default_pagination }}
-  {% endif %}
-
-{% endpaginate %}
+{% schema %}
+{
+  "name": "Template Blog",
+  "class": "blog-page",
+  "settings": [
+    {
+      "type": "range",
+      "id": "max_posts",
+      "label": "Posts per page",
+      "step": 1,
+      "min": 5,
+      "max": 10,
+      "default": 5
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,27 @@
+<div class="rounded-xl overflow:hidden place-self-center shadow-xl">
+  <div class="w-full">
+    {% if article.image %}
+      <img
+        class="featured-image w-full rounded-t-2xl object-cover"
+        src="{{ article.image | img_url: 'medium' }}"
+        alt="{{ article.image.alt }}"
+      >
+    {% else %}
+      {{ 'image' | placeholder_svg_tag: 'w-20' }}
+    {% endif %}
+  </div>
+  <div class="p-5 flex flex-col">
+    <h2 class="font-medium capitalize pb-2">
+      <a href="{{ article.url }}">{{ article.title }}</a>
+    </h2>
+    <small class="pb-2">{{ article.author }} @ {{ article.created_at }}</small>
+    <div>
+      {% if article.excerpt.size > 0 %}
+        {{ article.excerpt }}
+      {% else %}
+        <p class="pb-2">{{ article.content | strip_html | truncatewords: 50 }}</p>
+        <p><a class="font-medium text-blue-600 hover:text-blue-800" href="{{ article.url }}">Read more</a></p>
+      {% endif %}
+    </div>
+  </div>
+</div>

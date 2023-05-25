@@ -4,6 +4,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .header:after { 
@@ -38,7 +39,7 @@ div.menu {
 div.header ul.nav-links,
 div.header nav .account ul {
   display: flex;
-  gap: 25px;
+  gap: 15px;
   list-style: none;
   padding-inline-start: 0;
   justify-content: center;
@@ -48,7 +49,7 @@ div.header nav .shop-icons {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: 25px;
+  gap: 15px;
   position: absolute;
   right: 0;
 }

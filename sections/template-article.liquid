@@ -1,12 +1,12 @@
 {% assign se_stts = section.settings %}
 {{ 'article.css' | asset_url | stylesheet_tag }}
-<article>
+<article itemscope itemtype="http://schema.org/BlogPosting">
   {% for block in section.blocks %}
     {% case block.type %}
       {% when 'author' %}
         <div class="flex items-center justify-center mb-5">
           <div class="max-w-7xl text-center">
-            <small>{{ article.author }}</small>
+            <small itemprop="author">{{ article.author }}</small>
           </div>
         </div>
 
@@ -15,7 +15,7 @@
           <div class="max-w-7xl text-center">
             <small
               >Published -
-              <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">
+              <time itemprop="datePublished dateCreated" datetime="{{ article.published_at | date: '%Y-%m-%d' }}">
                 {{- article.published_at | date: '%Y-%m-%d' -}}
               </time>
             </small>
@@ -25,12 +25,12 @@
       {% when 'title' %}
         <div class="flex items-center justify-center mb-5">
           <div class="max-w-7xl text-center">
-            <h1 class="text-4xl md:text-6xl font-medium">{{ article.title }}</h1>
+            <h1 class="text-4xl md:text-6xl font-medium" itemprop="headline">{{ article.title }}</h1>
           </div>
         </div>
 
       {% when 'content' %}
-        <div class="article-body md:px-20 px-5 py-5">
+        <div class="article-body md:px-20 px-5 py-5" itemprop="articleBody">
           {{ article.content }}
         </div>
 
@@ -38,6 +38,7 @@
         <div class="image flex items-center justify-center mb-5 overflow-hidden">
           {% if article.image %}
             <img
+              itemprop="image"
               class="object-cover w-full object-center"
               src="{{ article.image | img_url: 'large' }}"
               alt="{{ article.image.alt }}"
@@ -50,6 +51,104 @@
     {% endcase %}
   {% endfor %}
 </article>
+
+{% if blog.comments_enabled? %}
+  <div id="comments" class="my-8">
+    {% if article.comments.size > 0 %}
+      <div class="flex-1 items-center justify-center mx-auto max-w-4xl px-4 text-center">
+        <h1 class="text-lg mb-4 font-medium">Check out what others are saying!</h1>
+        <p>{{ article.comments.size }} comment(s)</p>
+      </div>
+      <div class="flex-1">
+        {% paginate article.comments by 5 %}
+          {% for article_comment in article.comments %}
+            <div class="flex-1 border my-4 px-4 py-2 sm:px-6 sm:py-4 leading-relaxed">
+              <div class="flex">
+                <div class="thumbnail pr-5 my-auto">
+                  {% render : 'icon_user', type: "round" %}
+                </div>
+                <div class="comment">
+                  <span class="comment-author">{{ article_comment.author }}</span>
+                  <span class="text-xs text-gray-400">
+                    {{ article_comment.created_at | date: format: 'default' }}
+                  </span>
+                  <p class="text-sm">
+                    {{ article_comment.content }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+          <div class="max-w-6xl mx-auto text-center">
+            {% render 'pagination', pagination: paginate %}
+          </div>
+        {% endpaginate %}
+      </div>
+    {% endif %}
+    <div class="comments-form mt-20 mb-8">
+      <div class="flex-1 items-center justify-center mx-auto max-w-4xl px-4 text-center">
+        <h1 class="text-lg mb-4 font-medium">Leave a comment of your own!</h1>
+      </div>
+      {% form 'new_comment', article %}
+        <div class="form-error w-full mx-auto py-3 my-3 text-red text-center">
+          {% if form.errors %}
+            {{ form.errors | default_errors }}
+          {% elsif form.posted_successfully? %}
+            Yay! your comment was sent for moderation and will go live after approved.
+          {% endif %}
+        </div>
+        <div class="flex-1 mx-auto items-center justify-center max-w-4xl px-4">
+          <div class="px-1 md:flex mb-3">
+            <div class="px-3 md:w-1/2">
+              <label for="comment_author" class="text-gray-700 font-medium uppercase text-xs mb-2">Name</label>
+              <input
+                type="text"
+                name="comment[author]"
+                id="comment_author"
+                class="w-full text-gray-700 border py-3 px-4 mb-3 focus:outline-none"
+                placeholder="Your name"
+                required
+              >
+            </div>
+            <div class="px-3 md:w-1/2">
+              <label for="comment_email" class="text-gray-700 font-medium uppercase text-xs mb-2">Email</label>
+              <input
+                type="email"
+                name="comment[email]"
+                id="comment_email"
+                class="w-full text-gray-700 border py-3 px-4 mb-3 focus:outline-none"
+                placeholder="Your email"
+                required
+              >
+            </div>
+          </div>
+          <div class="px-1 md:flex mb-3">
+            <div class="md:w-full px-3">
+              <label for="comment_body" class="text-gray-700 font-medium uppercase text-xs mb-2">Comment</label>
+              <textarea
+                class="border w-full text-gray-700 resize-none py-2 px-3 focus:outline-none"
+                name="comment[body]"
+                id="comment_body"
+                cols="30"
+                rows="10"
+                required
+              ></textarea>
+            </div>
+          </div>
+          <div class="px-1 md:flex mb-3">
+            <div class="md:w-full px-3">
+              <input
+                type="submit"
+                class="w-full cursor-pointer px-4 py-2 border text-base font-medium text-white bg-gray-900 hover:bg-gray-700"
+                value="Submit Comment"
+              >
+            </div>
+          </div>
+        </div>
+      {% endform %}
+    </div>
+  </div>
+{% endif %}
 {% style %}
     {% if se_stts.set_max_width and se_stts.article_max_width != blank %}
   .article.container {
@@ -57,6 +156,28 @@
   }
     {% endif  %}
 {% endstyle %}
+<!-- JSON LD schema -->
+<script type="application/ld+json">
+  {
+       "@context":"http://schema.org/",
+       "@type":"BlogPosting",
+       "author":{{ article.author | json }},
+       "headline":{{ article.title | json }},
+       {% if article.image %}
+       "image":[{{ article.image | img_url: 'large' | prepend: 'https:' | json }}],
+      {% endif %}
+      "datePublished":{{ article.published_at | date: format: 'default'  | json }},
+      "dateCreated":{{ article.published_at | date: format: 'default'  | json }},
+      "articleBody":{{ article.content | strip_html | json }},
+    {% if article.excerpt != blank %}
+    "description":{{ article.excerpt | strip_html | json }}
+    {% endif %}
+    "publisher":{
+      "@type":"Organization",
+      "name":{{ shop.name | json }}
+    }
+  }
+</script>
 {% schema %}
 {
   "name": "Template Article",

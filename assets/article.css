@@ -1,3 +1,15 @@
 article .image {
     max-height: 500px;
 }
+
+.form-error div.errors ul > li {
+    color: #c70000;
+}
+
+article p {
+    margin-bottom: 1.3rem;
+}
+
+#comments .user-round {
+    transform: scale(1.2);
+}

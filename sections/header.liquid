@@ -38,7 +38,7 @@
                 <ul>
                   {%- if customer -%}
                     <li>
-                      <a href="/account" id="customer_login_link">{% render : 'icon_user' %}</a>
+                      <a href="/account" id="customer_login_link">{% render : 'icon_user', type: "standard" %}</a>
                     </li>
                     <li>
                       {{ 'Log out' | customer_logout_link }}
