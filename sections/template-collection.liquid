@@ -1,19 +1,18 @@
-{% paginate collection.products by 2 %}
-  <h1>{{ collection.title }}</h1>
-  {% for product in collection.products %}
-    <div>
-      <a href="{{ product.url | within: collection }}">{{ product.title }}</a>
-      {{ product.price | money }}
-      {% unless product.available %}<br><strong>sold out</strong>
-      {% endunless %}
-      <a href="{{ product.url | within: collection }}">
-        <img src="{{ product.featured_image.src | img_url: 'large' }}" alt="{{ product.featured_image.alt | escape }}">
-      </a>
-    </div>
-  {% else %}
-    <p>no matches</p>
-  {% endfor %}
-  {% if paginate.pages > 1 %}
-    {{ paginate | default_pagination }}
-  {% endif %}
+{% render 'breadcrumbs' %}
+{% paginate collection.products by 12 %}
+  <div class="flex-justify-center w-full py-20">
+    <h1 class="text-center w-full text-gray-600 font-medium text-2xl">
+      {{ collection.title }}
+    </h1>
+  </div>
+  <div class="container collection my-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7 mx-auto justify-center px-2 md:px-5 lg:px-0">
+    {% if collection.products.size > 0 %}
+      {% for product in collection.products %}
+        {% render 'product_card', product: product %}
+      {% endfor %}
+    {% else %}
+      <div class="w-full text-center min-h-50">There are no products in this collection</div>
+    {% endif %}
+    {% render 'pagination', pagination: paginate %}
+  </div>
 {% endpaginate %}

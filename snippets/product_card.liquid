@@ -1,0 +1,17 @@
+<div class="w-full rounded-xl overflow:hidden place-self-center shadow-xl">
+  <div class="image">
+    <img
+      src="{{ product.featured_image | img_url: 'medium' }}"
+      alt="{{ product.featured_image.alt }}"
+      class="w-full object-cover object-center rounded-t-2xl"
+    >
+  </div>
+  <div class="product-info flex flex-col p-5 justify-center text-center">
+    <h1 class="text-gray-600 font-medium text-xl">
+      <a href="{{ product.url }}">{{ product.title }}</a>
+    </h1>
+    <div class="price text-gray-600">
+      {{ product.price | money_with_currency }}
+    </div>
+  </div>
+</div>

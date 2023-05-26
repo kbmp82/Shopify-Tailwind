@@ -4,7 +4,7 @@
 <div class="header" x-data="{mobileMenuOpen:false}">
   <div class="container">
     <nav class="" :class="{'open' : mobileMenuOpen}">
-      <a href="/" class="logo">
+      <a href="{{ routes.root_url }}" class="logo">
         <img
           src="{{ se_stts.logo | image_url: width: se_stts.logo.width }}"
           alt="{{ se_stts.logo.alt | escape }}"
@@ -31,21 +31,23 @@
           {%- endfor %}
         </ul>
         <div class="shop-icons">
-          <a href="/cart">{% render 'icon_cart' %}</a>
+          <a href="{{ routes.cart_url }}">{% render 'icon_cart' %}</a>
           {% unless shop.customer_accounts_enabled == false %}
             <div class="account">
               {%- if shop.customer_accounts_enabled -%}
                 <ul>
                   {%- if customer -%}
                     <li>
-                      <a href="/account" id="customer_login_link">{% render : 'icon_user', type: "standard" %}</a>
+                      <a href="{{ routes.account_url }}" id="customer_login_link">
+                        {%- render : 'icon_user', type: "standard" -%}
+                      </a>
                     </li>
                     <li>
                       {{ 'Log out' | customer_logout_link }}
                     </li>
                   {%- else -%}
                     <li>
-                      <a href="/account" id="customer_login_link">Log In</a>
+                      <a href="{{ routes.account_login_url}}" id="customer_login_link">Log In</a>
                     </li>
                     <li>
                       {{ 'Create account' | customer_register_link }}

@@ -1,8 +1,9 @@
 {{ 'product.css' | asset_url | stylesheet_tag }}
 <!-- Optional Theme Stylesheet -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
 <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
-<div class="container">
+{% render 'breadcrumbs' %}
+<div class="container mx-auto my-20">
   {% assign selected_variant = product.selected_or_first_available_variant %}
   <div class="product">
     <div class="grid">
@@ -12,7 +13,7 @@
           <div class="swiper-wrapper">
             {% for media in product.media %}
               <div class="swiper-slide">
-                {% render 'product-media', media: media %}
+                {% render 'product_media', media: media %}
               </div>
             {% endfor %}
           </div>
@@ -25,60 +26,75 @@
           {% for block in section.blocks %}
             {% case block.type %}
               {% when 'title' %}
-              <h1 class="product__title">{{ product.title }}</h1>
+                <h1 class="product__title">{{ product.title }}</h1>
               {% when 'price' %}
-              <div class="product__price">
-                {% if selected_variant.compare_at_price > selected_variant.price %}
-                  <span class="price-compare">{{ selected_variant.compare_at_price | money_with_currency }}</span>
-                {% endif %}
-                <span class="price">{{ selected_variant.price | money_with_currency }}</span>
-                {% if selected_variant.compare_at_price > selected_variant.price %}
-                  <span class="sale-callout">Sale</span>
-                {% endif %}
-              </div>
+                <div class="product__price">
+                  {% if selected_variant.compare_at_price > selected_variant.price %}
+                    <span class="price-compare">{{ selected_variant.compare_at_price | money_with_currency }}</span>
+                  {% endif %}
+                  <span class="price">{{ selected_variant.price | money_with_currency }}</span>
+                  {% if selected_variant.compare_at_price > selected_variant.price %}
+                    <span class="sale-callout">Sale</span>
+                  {% endif %}
+                </div>
 
               {% when 'quantity' %}
-              <div class="product__options">
-                {% unless product.has_only_default_variant %}
-                  {% assign variantsJson = product.variants | json %}
-                  <variant-selector data-url="{{ product.url }}" data-section="{{ section.id }}">
-                    {% for option in product.options_with_values %}
-                      <label for="Option-{{ product.id }}-{{ forloop.index }}">{{ option.name }}</label>
-                      <div>
-                        <select name="options[{{ option.name | escape }}]" id="Option-{{ product.id }}-{{ forloop.index }}">
-                          {% for value in option.values %}
-                            <option value="{{ value | escape }}" {% if option.selected_value == value %}selected="selected"{% endif %}>{{ value }}</option>
-                          {% endfor %}
-                        </select>
-                      </div>
-                      <script type="application/json">{{ product.variants | json }}</script>
+                <div class="product__options">
+                  {% unless product.has_only_default_variant %}
+                    {% assign variantsJson = product.variants | json %}
+                    <variant-selector data-url="{{ product.url }}" data-section="{{ section.id }}">
+                      {% for option in product.options_with_values %}
+                        <label for="Option-{{ product.id }}-{{ forloop.index }}">{{ option.name }}</label>
+                        <div>
+                          <select
+                            name="options[{{ option.name | escape }}]"
+                            id="Option-{{ product.id }}-{{ forloop.index }}"
+                          >
+                            {% for value in option.values %}
+                              <option
+                                value="{{ value | escape }}"
+                                {% if option.selected_value == value %}
+                                  selected="selected"
+                                {% endif %}
+                              >
+                                {{ value }}
+                              </option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                        <script type="application/json">
+                          {{ product.variants | json }}
+                        </script>
+                      {% endfor %}
                     </variant-selector>
-                  {% endfor %}
-
-                {% endunless %}
-              </div>
-              <div class="product__quantity">
-                <label for="Quantity-{{ product.id }}">Quantity</label>
-                <div class="quantity-input">
-                  <input
-                    type="number"
-                    name="quantity"
-                    id="Quantity-{{ product.id }}"
-                    value="1"
-                    min="1">
+                  {% endunless %}
                 </div>
-              </div>
+                <div class="product__quantity">
+                  <label for="Quantity-{{ product.id }}">Quantity</label>
+                  <div class="quantity-input">
+                    <input
+                      type="number"
+                      name="quantity"
+                      id="Quantity-{{ product.id }}"
+                      value="1"
+                      min="1"
+                    >
+                  </div>
+                </div>
               {% when 'desc' %}
-              <div class="product__desc">
-                {{ product.description }}
-              </div>
+                <div class="product__desc">
+                  {{ product.description }}
+                </div>
             {% endcase %}
           {% endfor %}
           <div class="product__atc">
             <button
               type="submit"
               name="add"
-              {% if selected_variant.available == false %}disabled{% endif %}>
+              {% if selected_variant.available == false %}
+                disabled
+              {% endif %}
+            >
               {% if selected_variant.available %}
                 Add to Cart
               {% else %}
@@ -90,7 +106,8 @@
             id="variant_id"
             type="hidden"
             name="id"
-            value="{{ selected_variant.id }}">
+            value="{{ selected_variant.id }}"
+          >
         {% endform %}
       </div>
     </div>
@@ -100,11 +117,11 @@
   class VariantSelector extends HTMLElement {
     constructor() {
       super();
-      this.addEventListener("change", this.onVariantChange);
+      this.addEventListener('change', this.onVariantChange);
     }
 
     onVariantChange() {
-      this.options = Array.from(this.querySelectorAll("select"), (select) => select.value);
+      this.options = Array.from(this.querySelectorAll('select'), (select) => select.value);
       this.getJsonVariant();
       this.updateFormID();
       this.updateURL();
@@ -113,87 +130,83 @@
 
     getJsonVariant() {
       this.variantData = JSON.parse(this.querySelector('[type="application/json"]').textContent);
-      this.currentVariant = this.variantData.find(variant => {
-        let findings = !variant.options.map((option, index) => {
-          return this.options[index] == option;
-        }).includes(false);
+      this.currentVariant = this.variantData.find((variant) => {
+        let findings = !variant.options
+          .map((option, index) => {
+            return this.options[index] == option;
+          })
+          .includes(false);
         if (findings) {
           return variant;
         }
       });
-      console.log(this.currentVariant)
+      console.log(this.currentVariant);
       return this.currentVariant;
     }
 
     updateFormID() {
       if (!this.currentVariant) {
-        return
+        return;
       }
-      const inputVariant = document.querySelector("#variant_id").value = this.currentVariant.id;
+      const inputVariant = (document.querySelector('#variant_id').value = this.currentVariant.id);
     }
 
     updateURL() {
       if (!this.currentVariant) {
-        return
+        return;
       }
 
-      window.history.replaceState({}, '', `${
-        this.dataset.url
-      }?variant=${
-        this.currentVariant.id
-      }`);
+      window.history.replaceState({}, '', `${this.dataset.url}?variant=${this.currentVariant.id}`);
     }
 
     updatePrice() {
-      document.querySelector("span.price").innerHTML = `$${
-        this.currentVariant.price / 100
-      } USD`;
+      document.querySelector('span.price').innerHTML = `$${this.currentVariant.price / 100} USD`;
 
-      document.querySelector("span.price-compare").innerHTML = `$${
-        this.currentVariant.compare_at_price / 100
-      } USD`;
-
+      document.querySelector('span.price-compare').innerHTML = `$${this.currentVariant.compare_at_price / 100} USD`;
     }
   }
-  customElements.define("variant-selector", VariantSelector)
+  customElements.define('variant-selector', VariantSelector);
 </script>
 <script>
-  var swiper = new Swiper(".mySwiper", {
+  var swiper = new Swiper('.mySwiper', {
     navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev"
-    }
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
   });
 </script>
 
 {% schema %}
-  {
-    "name": "Product",
-    "settings": [
-      {
-        "type": "checkbox",
-        "id": "test",
-        "label": "Test check"
-      }
-    ],
-    "blocks": [
-      {
-        "type": "title",
-        "name": "Title",
-        "limit": 1
-      }, {
-        "type": "price",
-        "name": "Price",
-        "limit": 1
-      }, {
-        "type": "quantity",
-        "name": "Quantity",
-        "limit": 1
-      }, {
-        "type": "desc",
-        "name": "Description",
-        "limit": 1
-      }
-    ]
-  }
+{
+  "name": "Product",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "test",
+      "label": "Test check"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "title",
+      "name": "Title",
+      "limit": 1
+    },
+    {
+      "type": "price",
+      "name": "Price",
+      "limit": 1
+    },
+    {
+      "type": "quantity",
+      "name": "Quantity",
+      "limit": 1
+    },
+    {
+      "type": "desc",
+      "name": "Description",
+      "limit": 1
+    }
+  ]
+}
 {% endschema %}
