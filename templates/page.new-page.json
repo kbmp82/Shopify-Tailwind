@@ -1,0 +1,29 @@
+{
+  "sections": {
+    "template": {
+      "type": "template-page",
+      "settings": {
+      }
+    },
+    "5322f324-98c2-4851-96ca-c8d41e221a17": {
+      "type": "featured_collection",
+      "disabled": true,
+      "settings": {
+        "title": "Featured Collection",
+        "featured_collection": "",
+        "max_width": "300px",
+        "max_products": 12
+      }
+    },
+    "21ffac2a-d01f-4289-84d7-afb0b8e05a41": {
+      "type": "contact_form",
+      "settings": {
+      }
+    }
+  },
+  "order": [
+    "template",
+    "5322f324-98c2-4851-96ca-c8d41e221a17",
+    "21ffac2a-d01f-4289-84d7-afb0b8e05a41"
+  ]
+}

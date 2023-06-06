@@ -1,0 +1,24 @@
+<div class="w-full max-w-sm rounded-xl place-self-center shadow-xl mb-8">
+  <a href="{{ collection.url }}">
+    <div class="image overflow-hidden rounded-t-2xl">
+      {% if collection.featured_image != blank %}
+        <img
+          src="{{ collection.featured_image | img_url: 'medium' }}"
+          alt="{{ collection.featured_image.alt }}"
+          class="w-full object-cover object-center  duration-1000 ease-in-out hover:scale-105 transform"
+        >
+      {% else %}
+        <img
+          src="{{ collection.products.first.image | img_url: 'medium' }}"
+          alt="{{collection.products.first.image  }}"
+          class="w-full object-cover object-center  duration-1000 ease-in-out hover:scale-105 transform"
+        >
+      {% endif %}
+    </div>
+    <div class="product-info flex flex-col p-5 justify-center text-center">
+      <h1 class="text-gray-600 font-medium text-xl">
+        {{ collection.title }}
+      </h1>
+    </div>
+  </a>
+</div>

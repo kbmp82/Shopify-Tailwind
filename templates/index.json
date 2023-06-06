@@ -1,10 +1,26 @@
 {
-    "sections": {
-        "homepage":{
-            "type" : "homepage"
-        }
+  "sections": {
+    "featured_collection": {
+      "type": "featured_collection",
+      "settings": {
+        "title": "Homepage",
+        "featured_collection": "frontpage",
+        "max_width": "300px",
+        "max_products": 4
+      }
     },
-    "order": [
-        "homepage"
-    ]
+    "2a866405-377d-40fb-b1ab-c3e5ebd03fba": {
+      "type": "featured_collection",
+      "settings": {
+        "title": "Skateboards",
+        "featured_collection": "skateboards",
+        "max_width": "300px",
+        "max_products": 12
+      }
+    }
+  },
+  "order": [
+    "featured_collection",
+    "2a866405-377d-40fb-b1ab-c3e5ebd03fba"
+  ]
 }

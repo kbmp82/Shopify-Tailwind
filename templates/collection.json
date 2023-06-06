@@ -1,10 +1,14 @@
 {
-    "sections": {
-        "template" :{
-            "type": "template-collection"
-        }
-    },
-    "order": [
-        "template"
-    ]
+  "sections": {
+    "template": {
+      "type": "template-collection",
+      "settings": {
+        "max_width": "300px",
+        "max_products": 4
+      }
+    }
+  },
+  "order": [
+    "template"
+  ]
 }

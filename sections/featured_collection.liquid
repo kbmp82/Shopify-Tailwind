@@ -1,0 +1,58 @@
+{% assign se_stts = section.settings %}
+<div class="featured-collection container mx-auto my-8">
+  <div class="title text-center w-full text-gray-600 font-medium text-2xl">
+    <h1>{{ se_stts.title }}</h1>
+  </div>
+  <div class="my-8 grid gap-7 mx-auto justify-center px-2 md:px-5 lg:px-0">
+    {% for product in se_stts.featured_collection.products limit: se_stts.max_products %}
+      {% render 'product_card', product: product %}
+    {% else %}
+      {% for item in (1..4) %}
+        {% render 'product_card_placeholder' %}
+      {% endfor %}
+    {% endfor %}
+  </div>
+</div>
+{% style %}
+  .featured-collection img {
+    height: 325px;
+  }
+  .featured-collection .grid {
+    grid-template-columns: repeat(auto-fill, minmax({{se_stts.max_width}}, 1fr));
+  }
+{% endstyle %}
+{% schema %}
+{
+  "name": "Featured Collection",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "title",
+      "default": "Featured Collection"
+    },
+    {
+      "type": "collection",
+      "id": "featured_collection",
+      "label": "Collection"
+    },
+    {
+      "type": "text",
+      "id": "max_width",
+      "label": "Product card max width",
+      "default": "300px"
+    },
+    {
+      "type": "number",
+      "id": "max_products",
+      "label": "Max products per collection",
+      "default": 12
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured collection"
+    }
+  ]
+}
+{% endschema %}

@@ -1,9 +1,9 @@
-<div class="w-full rounded-xl overflow:hidden place-self-center shadow-xl">
-  <div class="image">
+<div class="w-full max-w-sm rounded-xl place-self-center shadow-xl mb-8">
+  <div class="image overflow-hidden rounded-t-2xl">
     <img
       src="{{ product.featured_image | img_url: 'medium' }}"
       alt="{{ product.featured_image.alt }}"
-      class="w-full object-cover object-center rounded-t-2xl"
+      class="w-full object-cover object-center  duration-1000 ease-in-out hover:scale-105 transform"
     >
   </div>
   <div class="product-info flex flex-col p-5 justify-center text-center">

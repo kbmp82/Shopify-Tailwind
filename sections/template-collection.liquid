@@ -1,11 +1,12 @@
-{% render 'breadcrumbs' %}
-{% paginate collection.products by 12 %}
+{{ 'collection.css' | asset_url | stylesheet_tag }}
+{% assign se_stts = section.settings %}
+{% paginate collection.products by se_stts.max_products %}
   <div class="flex-justify-center w-full py-20">
     <h1 class="text-center w-full text-gray-600 font-medium text-2xl">
       {{ collection.title }}
     </h1>
   </div>
-  <div class="container collection my-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7 mx-auto justify-center px-2 md:px-5 lg:px-0">
+  <div class="container collection my-8 grid gap-7 mx-auto justify-center px-2 md:px-5 lg:px-0">
     {% if collection.products.size > 0 %}
       {% for product in collection.products %}
         {% render 'product_card', product: product %}
@@ -13,6 +14,33 @@
     {% else %}
       <div class="w-full text-center min-h-50">There are no products in this collection</div>
     {% endif %}
+  </div>
+  <div class="container mx-auto">
     {% render 'pagination', pagination: paginate %}
   </div>
 {% endpaginate %}
+
+{% style %}
+  .collection.grid {
+    grid-template-columns: repeat(auto-fill, minmax({{se_stts.max_width}}, 1fr));
+  }
+{% endstyle %}
+{% schema %}
+{
+  "name": "Template Collections",
+  "settings": [
+    {
+      "type": "text",
+      "id": "max_width",
+      "label": "Max width per card",
+      "default": "300px"
+    },
+    {
+      "type": "number",
+      "id": "max_products",
+      "label": "Max products per page",
+      "default": 12
+    }
+  ]
+}
+{% endschema %}
