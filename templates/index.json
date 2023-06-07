@@ -1,5 +1,40 @@
 {
   "sections": {
+    "542ee5b7-addf-4b8b-aa97-7a37fc2112ae": {
+      "type": "banner",
+      "blocks": {
+        "e5b17f33-1c59-4ed4-b261-95d8cb7198b4": {
+          "type": "text",
+          "settings": {
+            "text": "<p>LIVE. LOVE.<\/p>",
+            "font_clr": "#ffffff",
+            "font_size": "8rem"
+          }
+        },
+        "ba21cef0-5904-4755-bb2b-719d1748cc05": {
+          "type": "text",
+          "settings": {
+            "text": "<p>GRIND.<\/p>",
+            "font_clr": "#ffffff",
+            "font_size": "8rem"
+          }
+        }
+      },
+      "block_order": [
+        "e5b17f33-1c59-4ed4-b261-95d8cb7198b4",
+        "ba21cef0-5904-4755-bb2b-719d1748cc05"
+      ],
+      "settings": {
+        "container": "full",
+        "image": "shopify:\/\/shop_images\/pexels-cottonbro-studio-10675618.jpg",
+        "max_height": "80vh",
+        "btn_url": "shopify:\/\/collections\/skateboards",
+        "btn_text": "Shop Now",
+        "btn_clr": "#d4573b",
+        "margin": "0",
+        "margin_mb": "0"
+      }
+    },
     "featured_collection": {
       "type": "featured_collection",
       "settings": {
@@ -20,6 +55,7 @@
     }
   },
   "order": [
+    "542ee5b7-addf-4b8b-aa97-7a37fc2112ae",
     "featured_collection",
     "2a866405-377d-40fb-b1ab-c3e5ebd03fba"
   ]

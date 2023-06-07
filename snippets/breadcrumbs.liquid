@@ -1,5 +1,5 @@
-<div class="w-full bg-gray-100 relative">
-  <div class="container mx-auto w-full py-3">
+<div class="breadcrumbs w-full bg-gray-100 relative">
+  <div class="container mx-auto w-full py-3 px-3 md:px-0">
     <nav class="w-full breadcrumbs flex items-center" role="navigation" aria-label="navigation">
       <a href="{{ routes.root_url }}" class="text-sm">Home</a>
       <span class="pl-3 pr-3">{% render 'icon_chevron' %}</span>
@@ -13,6 +13,8 @@
         <a href="{{ routes.all_products_collection_url }}" class="text-sm">Products</a>
         <span class="pl-3 pr-3">{% render 'icon_chevron' %}</span>
         <span class="text-sm" style="text-transform:capitalize">{{ product.title }}</span>
+      {% elsif page.url %}
+        <span class="text-sm" style="text-transform:capitalize">{{ page.title }}</span>
       {% elsif blog.url %}
         {% if article.url %}
           <a href="{{ blog.url }}" class="text-sm">{{ blog.title }}</a>
@@ -25,3 +27,9 @@
     </nav>
   </div>
 </div>
+{% style %}
+  .breadcrumbs {
+    background-color: {{ settings.breadcrumbs_bg_color }};
+    color: {{ settings.breadcrumbs_fnt_color }};
+  }
+{% endstyle %}

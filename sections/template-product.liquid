@@ -5,8 +5,8 @@
 <div class="container mx-auto my-20">
   {% assign selected_variant = product.selected_or_first_available_variant %}
   <div class="product">
-    <div class="grid">
-      <div class="product__media">
+    <div class="flex justify-around">
+      <div class="product__media w-full max-w-2xl">
         <!-- Swiper -->
         <div class="swiper mySwiper">
           <div class="swiper-wrapper">
@@ -20,47 +20,56 @@
           <div class="swiper-button-prev"></div>
         </div>
       </div>
-      <div class="product__summary">
+      <div class="product__summary flex flex-col justify-center w-full max-w-lg">
         {% form 'product', product, id: 'product-form', novalidate: 'novalidate' %}
           {% for block in section.blocks %}
             {% case block.type %}
               {% when 'title' %}
-                <h1 class="product__title">{{ product.title }}</h1>
+                <h1 class="product__title text-6xl uppercase mb-12 font-medium leading-8">{{ product.title }}</h1>
               {% when 'price' %}
-                <div class="product__price">
+                <div class="product__price flex items-end gap-3 mb-5">
                   {% if selected_variant.compare_at_price > selected_variant.price %}
-                    <span class="price-compare">{{ selected_variant.compare_at_price | money_with_currency }}</span>
+                    <span class="price-compare line-through">
+                      {{- selected_variant.compare_at_price | money_with_currency -}}
+                    </span>
                   {% endif %}
-                  <span class="price">{{ selected_variant.price | money_with_currency }}</span>
+                  <span class="price text-2xl font-medium">{{ selected_variant.price | money_with_currency }}</span>
                   {% if selected_variant.compare_at_price > selected_variant.price %}
-                    <span class="sale-callout">Sale</span>
+                    {% render 'badges', type: 'sale' %}
                   {% endif %}
                 </div>
 
               {% when 'quantity' %}
-                <div class="product__options">
+                <div class="product__options mb-5">
                   {% unless product.has_only_default_variant %}
                     {% assign variantsJson = product.variants | json %}
-                    <variant-selector data-url="{{ product.url }}" data-section="{{ section.id }}">
+                    <variant-selector
+                      data-url="{{ product.url }}"
+                      data-section="{{ section.id }}"
+                      class="flex items-center gap-3"
+                    >
                       {% for option in product.options_with_values %}
-                        <label for="Option-{{ product.id }}-{{ forloop.index }}">{{ option.name }}</label>
-                        <div>
-                          <select
-                            name="options[{{ option.name | escape }}]"
-                            id="Option-{{ product.id }}-{{ forloop.index }}"
-                          >
-                            {% for value in option.values %}
-                              <option
-                                value="{{ value | escape }}"
-                                {% if option.selected_value == value %}
-                                  selected="selected"
-                                {% endif %}
-                              >
-                                {{ value }}
-                              </option>
-                            {% endfor %}
-                          </select>
-                        </div>
+                        <label class="font-medium" for="Option-{{ product.id }}-{{ forloop.index }}">
+                          {{- option.name -}}
+                        </label>
+
+                        <select
+                          name="options[{{ option.name | escape }}]"
+                          id="Option-{{ product.id }}-{{ forloop.index }}"
+                          class="border rounded-lg py-1 px-5 focus:outline-none"
+                        >
+                          {% for value in option.values %}
+                            <option
+                              value="{{ value | escape }}"
+                              {% if option.selected_value == value %}
+                                selected="selected"
+                              {% endif %}
+                            >
+                              {{ value }}
+                            </option>
+                          {% endfor %}
+                        </select>
+
                         <script type="application/json">
                           {{ product.variants | json }}
                         </script>
@@ -68,27 +77,27 @@
                     </variant-selector>
                   {% endunless %}
                 </div>
-                <div class="product__quantity">
+                <div class="product__quantity flex items-center gap-3 mb-5">
                   <label for="Quantity-{{ product.id }}">Quantity</label>
-                  <div class="quantity-input">
-                    <input
-                      type="number"
-                      name="quantity"
-                      id="Quantity-{{ product.id }}"
-                      value="1"
-                      min="1"
-                    >
-                  </div>
+                  <input
+                    type="number"
+                    class="border rounded-lg focus:outline-none text-center px-1 py-1"
+                    name="quantity"
+                    id="Quantity-{{ product.id }}"
+                    value="1"
+                    min="1"
+                  >
                 </div>
               {% when 'desc' %}
-                <div class="product__desc">
+                <div class="product__desc max-w-md mb-5">
                   {{ product.description }}
                 </div>
             {% endcase %}
           {% endfor %}
-          <div class="product__atc">
+          <div class="product__atc w-full">
             <button
               type="submit"
+              class="w-full max-w-md py-4 mt-8 rounded-lg bg-gray-800 text-white hover:bg-gray-700"
               name="add"
               {% if selected_variant.available == false %}
                 disabled
@@ -130,17 +139,17 @@
     getJsonVariant() {
       this.variantData = JSON.parse(this.querySelector('[type="application/json"]').textContent);
       this.currentVariant = this.variantData.find((variant) => {
-        let findings = !variant.options
+        let foundVariant = variant.options
           .map((option, index) => {
-            return this.options[index] == option;
+            return this.options[index] == option; //if main options array is == current option, return true
           })
-          .includes(false);
-        if (findings) {
+          .includes(true);
+        if (foundVariant) {
           return variant;
         }
       });
       console.log(this.currentVariant);
-      return this.currentVariant;
+      return;
     }
 
     updateFormID() {

@@ -18,9 +18,9 @@
   </head>
 
   <body>
-    <main role="main">
+    <main role="main" data-template="{{ template.name }}">
       {% section 'header' %}
-      {% unless template == 'index' %}
+      {% unless template.name == 'index' or template.name == 'page' %}
         {% render 'breadcrumbs' %}
       {% endunless %}
       {{ content_for_layout }}

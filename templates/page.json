@@ -1,10 +1,22 @@
 {
-    "sections": {
-        "template" :{
-            "type": "template-page"
-        }
+  "sections": {
+    "heading": {
+      "type": "page_heading",
+      "settings": {
+        "bg_color": "#ffffff",
+        "fnt_color": "#000000",
+        "font_size": 25,
+        "font_size_mb": 20
+      }
     },
-    "order": [
-        "template"
-    ]
+    "template": {
+      "type": "template-page",
+      "settings": {
+      }
+    }
+  },
+  "order": [
+    "heading",
+    "template"
+  ]
 }

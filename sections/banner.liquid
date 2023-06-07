@@ -1,0 +1,162 @@
+{% assign se_stts = section.settings %}
+<div id="banner-{{ se_stts.id }}" class="{% if se_stts.container == 'contain' %}container mx-auto{% endif %}">
+  <div class="banner-wrap">
+    <div class="image-wrap w-full flex relative overflow-hidden">
+      {% if se_stts.image != blank %}
+        <img
+          src="{{ se_stts.image | img_url: 'master' }}"
+          alt="{{ se_stts.image.alt }}"
+          class="object-cover w-full h-full object-center"
+        >
+      {% else %}
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'w-full' }}
+      {% endif %}
+      <div class="p-5 absolute w-full h-full flex justify-center items-center flex-col gap-8">
+        <div class="text-wrap text-center">
+          {% for block in section.blocks %}
+            <div id="{{ block.id }}">{{ block.settings.text }}</div>
+          {% endfor %}
+        </div>
+        {% unless se_stts.btn_url == blank %}
+          <a
+            class="min-w-max px-8 py-3 rounded-lg text-white"
+            href="{{ se_stts.btn_url }}"
+          >
+            {{- se_stts.btn_text -}}
+          </a>
+        {% endunless %}
+      </div>
+    </div>
+  </div>
+</div>
+{% style %}
+  {% for block in section.blocks %}
+   #banner-{{ se_stts.id }} #{{ block.id }}{
+    font-size: {{ block.settings.font_size }};
+    font-weight: 500;
+    line-height: {{ block.settings.font_size }};
+    color: {{ block.settings.font_clr }};
+   }
+   {% endfor %}
+   #banner-{{ se_stts.id }} a {
+    background-color: {{ se_stts.btn_clr }};
+   }
+    #banner-{{ se_stts.id }} .banner-wrap {
+      margin: {{ se_stts.margin_mb }};
+      }
+
+      @media(min-width: 1025px){
+        #banner-{{ se_stts.id }} .banner-wrap{
+      margin: {{ se_stts.margin }}
+      }
+
+      #banner-{{ se_stts.id }} .image-wrap{
+        max-height: {{ se_stts.max_height}};
+      }
+      }
+{% endstyle %}
+{% schema %}
+{
+  "name": "Banner",
+  "settings": [
+    {
+      "type": "select",
+      "id": "container",
+      "options": [
+        {
+          "value": "full",
+          "label": "Full width"
+        },
+        {
+          "value": "contain",
+          "label": "Container"
+        }
+      ],
+      "default": "full",
+      "label": "Layout"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "max_height",
+      "label": "Banner max height",
+      "default": "100%"
+    },
+    {
+      "type": "url",
+      "id": "btn_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "text",
+      "id": "btn_text",
+      "label": "Button text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "color",
+      "id": "btn_clr",
+      "label": "Button background",
+      "default": "#000"
+    },
+    {
+      "type": "header",
+      "content": "Design"
+    },
+    {
+      "type": "paragraph",
+      "content": "Desktop"
+    },
+    {
+      "type": "text",
+      "id": "margin",
+      "label": "Margin",
+      "default": "0"
+    },
+    {
+      "type": "paragraph",
+      "content": "Mobile"
+    },
+    {
+      "type": "text",
+      "id": "margin_mb",
+      "label": "Margin",
+      "default": "0"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Text",
+      "type": "text",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Content"
+        },
+        {
+          "type": "color",
+          "id": "font_clr",
+          "label": "Font color",
+          "default": "#000"
+        },
+        {
+          "type": "text",
+          "id": "font_size",
+          "label": "Font size",
+          "default": "8rem"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Banner"
+    }
+  ]
+}
+{% endschema %}

@@ -1,6 +1,7 @@
-.product .grid {
-  grid-template-columns: 1fr 1fr;
-  gap: 50px;
+/* swiper */
+.swiper-button-next:after,
+.swiper-button-prev:after {
+  color: white;
 }
 
 .product .product__media {
@@ -12,6 +13,9 @@
     height: 500px;
 }
 
+.product__quantity input {
+  max-width: 100px;
+}
 @media (max-width: 767px) {
   .product .grid {
     grid-template-columns: 1fr;

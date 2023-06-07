@@ -1,0 +1,61 @@
+{% assign se_stts = section.settings %}
+{% if settings.breadcrumbs_pos == 'above' %}{% render 'breadcrumbs' %}{% endif %}
+<div class="page-head w-full flex items-center justify-center py-5">
+  <h1 class="font-medium text-3xl my-8 md:my-16">{{ page.title }}</h1>
+</div>
+{% if settings.breadcrumbs_pos == 'below' %}{% render 'breadcrumbs' %}{% endif %}
+{% style %}
+  .page-head h1 {
+    color: {{ se_stts.fnt_color }};
+    font-size: {{ se_stts.font_size_mb }}px;
+  }
+
+  .page-head {
+    background-color: {{ se_stts.bg_color }};
+  }
+
+  @media(min-width: 1025px){
+    .page-head h1 {
+    font-size: {{ se_stts.font_size }}px;
+  }
+  }
+{% endstyle %}
+{% schema %}
+{
+  "name": "Page heading",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Heading background color",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "fnt_color",
+      "label": "Heading font color",
+      "default": "#000"
+    },
+    {
+      "type": "range",
+      "min": 25,
+      "max": 50,
+      "id": "font_size",
+      "label": "Heading font size",
+      "default": 25
+    },
+    {
+      "type": "header",
+      "content": "Mobile"
+    },
+    {
+      "type": "range",
+      "min": 18,
+      "max": 50,
+      "id": "font_size_mb",
+      "label": "Heading font size",
+      "default": 20
+    }
+  ]
+}
+{% endschema %}

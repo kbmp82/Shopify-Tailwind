@@ -1,11 +1,16 @@
 {
   "current": {
+    "breadcrumbs_bg_color": "#000000",
+    "breadcrumbs_fnt_color": "#fff",
+    "breadcrumbs_pos": "below",
     "sections": {
       "header": {
         "type": "header",
         "settings": {
-          "logo": "shopify:\/\/shop_images\/images.png",
-          "max_width": "80px"
+          "header_height": "150px",
+          "logo": "shopify:\/\/shop_images\/23523152_518.jpg",
+          "max_width": "150px",
+          "menu": "main-menu"
         }
       }
     },

@@ -1,23 +1,83 @@
-<div class="container mx-auto">
-  {% form 'contact' %}
-    {% if form.posted_successfully? %} Thank you for your contact {% endif %}
-    {{ form.errors | default_errors }}
-    <label for="ContactFormName">name</label>
-    <input type="text" id="ContactFormName" name="contact[name]">
-    <label for="ContactFormEmail">email</label>
-    <input type="email" id="ContactFormEmail" name="contact[email]">
-    <label for="ContactFormPhone">phone</label>
-    <input type="tel" id="ContactFormPhone" name="contact[phone]">
-    <label for="ContactFormMessage">message</label>
-    <textarea rows="10" id="ContactFormMessage" name="contact[body]"></textarea>
-    <input type="submit" value="send">
+{% assign se_stts = section.settings %}
+<div class="container mx-auto flex flex-col items-center my-8">
+  <div class="flex justify-center">
+    <h1 class="font-medium text-3xl my-8 md:my-16">
+      {{ se_stts.title }}
+    </h1>
+  </div>
+  {% form 'contact', class: 'flex flex-col items-center justify-center w-full max-w-md' %}
+    <div class="flex mb-3 flex-col w-full">
+      {% if form.posted_successfully? %}
+        <div class="text-green-500 text-center">Thank you we will be in touch soon!</div>
+      {% elsif form.errors %}
+        <div class="text-center">
+          <p class="text-red-500 font-medium">Please correct the following errors:</p>
+          <ul>
+            {% for error in form.errors %}
+              <li>
+                {% if error == 'form' %}
+                  {{ form.errors.messages[error] }}
+                {% else %}
+                  {{ form.errors.translated_fields[error] }} - {{ form.errors.messages[error] }}
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="flex mb-3">
+      <div class="px-3 md:w-1/2">
+        <label for="contact_name">Your name</label>
+        <input
+          type="text"
+          name="contact[name]"
+          id="contact_name"
+          class="w-full border rounded-md focus:outline-none py-1"
+        >
+      </div>
+      <div class="px-3 md:w-1/2">
+        <label for="contact_email">Your email</label>
+        <input
+          type="text"
+          name="contact[email]"
+          id="contact_email"
+          class="w-full border rounded-md focus:outline-none py-1"
+        >
+      </div>
+    </div>
+    <div class="flex mb-3 flex-col w-full">
+      <div class="px-3">
+        <label for="contact_message">Your message</label>
+        <textarea
+          name="contact[body]"
+          id="contact_message"
+          cols="30"
+          rows="5"
+          class="w-full border rounded-md focus:outline-none mb-3"
+        ></textarea>
+      </div>
+      <div class="px-3">
+        <button type="submit" class="w-full text-white bg-gray-900 rounded-md py-3 hover:bg-gray-800">
+          Submit Message
+        </button>
+      </div>
+    </div>
   {% endform %}
 </div>
 
 {% schema %}
 {
   "name": "Contact Form",
-  "settings": [],
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Contact Us!"
+    }
+  ],
   "presets": [
     {
       "name": "Contact Form"
