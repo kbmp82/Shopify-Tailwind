@@ -42,14 +42,17 @@
               {% when 'quantity' %}
                 <div class="product__options mb-5">
                   {% unless product.has_only_default_variant %}
-                    {% assign variantsJson = product.variants | json %}
                     <variant-selector
                       data-url="{{ product.url }}"
                       data-section="{{ section.id }}"
                       class="flex items-center gap-3"
                     >
                       {% for option in product.options_with_values %}
-                        <label class="font-medium" for="Option-{{ product.id }}-{{ forloop.index }}">
+                        <label
+                          class="font-medium"
+                          for="Option-{{ product.id }}-{{ forloop.index }}"
+                          data-option="{{ option | json }}"
+                        >
                           {{- option.name -}}
                         </label>
 
@@ -139,11 +142,7 @@
     getJsonVariant() {
       this.variantData = JSON.parse(this.querySelector('[type="application/json"]').textContent);
       this.currentVariant = this.variantData.find((variant) => {
-        let foundVariant = variant.options
-          .map((option, index) => {
-            return this.options[index] == option; //if main options array is == current option, return true
-          })
-          .includes(true);
+        let foundVariant = this.options.toString() == variant.options.toString() ? true : false;
         if (foundVariant) {
           return variant;
         }
@@ -158,7 +157,7 @@
       }
       const inputVariant = (document.querySelector('#variant_id').value = this.currentVariant.id);
     }
-
+    //update URL so page refesh keeps selected variants
     updateURL() {
       if (!this.currentVariant) {
         return;
@@ -169,8 +168,9 @@
 
     updatePrice() {
       document.querySelector('span.price').innerHTML = `$${this.currentVariant.price / 100} USD`;
-
-      document.querySelector('span.price-compare').innerHTML = `$${this.currentVariant.compare_at_price / 100} USD`;
+      if (this.currentVariant.compare_at_price) {
+        document.querySelector('span.price-compare').innerHTML = `$${this.currentVariant.compare_at_price / 100} USD`;
+      }
     }
   }
   customElements.define('variant-selector', VariantSelector);
