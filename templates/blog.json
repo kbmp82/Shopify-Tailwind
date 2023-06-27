@@ -3,7 +3,6 @@
     "template": {
       "type": "template-blog",
       "settings": {
-        "max_posts": 10
       }
     }
   },

@@ -3,8 +3,6 @@
     "template": {
       "type": "template-collection",
       "settings": {
-        "max_width": "300px",
-        "max_products": 4
       }
     }
   },

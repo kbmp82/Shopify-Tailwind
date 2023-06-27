@@ -100,6 +100,13 @@ svg.w-6.h-6.hamburger {
   float: right;
 }
 
+.search {
+bottom: 20px;
+left: 50%;
+transform: translateX(-50%);
+max-width: 400px;
+
+}
 
 @media (min-width: 1025px) {
   svg.w-6.h-6.hamburger {

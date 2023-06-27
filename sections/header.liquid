@@ -1,7 +1,7 @@
 {{ 'header.css' | asset_url | stylesheet_tag }}
 {% assign se_stts = section.settings %}
 {% assign sid = section.id %}
-<div class="header" x-data="{mobileMenuOpen:false}">
+<div class="header" x-data="{mobileMenuOpen:false, searchBarOpen: false}">
   <div class="container">
     <nav class="" :class="{'open' : mobileMenuOpen}">
       <a href="{{ routes.root_url }}" class="logo">
@@ -31,6 +31,7 @@
           {%- endfor %}
         </ul>
         <div class="shop-icons">
+          <button x-on:click="searchBarOpen = !searchBarOpen">{% render 'icon_search' %}</button>
           <a href="{{ routes.cart_url }}">{% render 'icon_cart' %}</a>
           {% unless shop.customer_accounts_enabled == false %}
             <div class="account">
@@ -61,6 +62,21 @@
       </div>
       <!-- mobile hamburger -->
       {% render 'icon_hamburger' %}
+      <div class="search w-full border absolute bg-white" x-show="searchBarOpen">
+        <div class="h-10 flex justify-center items-center">
+          <form action="{{ routes.search_url}}" method="get">
+            <div class="relative text-gray-500-px-10 flex gap-4">
+              <input
+                type="search"
+                name="q"
+                placeholder="Search..."
+                class="px-3 bg-white rounded-full w-full h-10 pr-10 focus:outline-none"
+              >
+              <button type="submit" class="">{% render 'icon_search' %}</button>
+            </div>
+          </form>
+        </div>
+      </div>
     </nav>
   </div>
 </div>

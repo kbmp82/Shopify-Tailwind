@@ -1,24 +1,24 @@
 {
   "sections": {
-    "heading": {
-      "type": "page_heading",
-      "settings": {
-        "bg_color": "#1773b0",
-        "fnt_color": "#ffffff",
-        "font_size": 50,
-        "font_size_mb": 25
-      }
-    },
     "template": {
       "type": "template-page",
       "disabled": true,
       "settings": {
       }
     },
+    "heading": {
+      "type": "page_heading",
+      "settings": {
+        "bg_color": "#f5f5f5",
+        "fnt_color": "#000000",
+        "font_size": 50,
+        "font_size_mb": 25
+      }
+    },
     "21ffac2a-d01f-4289-84d7-afb0b8e05a41": {
       "type": "contact_form",
       "settings": {
-        "title": "Contact Us!"
+        "title": "Get In Touch!"
       }
     },
     "5322f324-98c2-4851-96ca-c8d41e221a17": {
@@ -32,8 +32,8 @@
     }
   },
   "order": [
-    "heading",
     "template",
+    "heading",
     "21ffac2a-d01f-4289-84d7-afb0b8e05a41",
     "5322f324-98c2-4851-96ca-c8d41e221a17"
   ]

@@ -5,11 +5,7 @@
       "type": "template-404",
       "settings": {
         "title": "404",
-        "subtitle": "The page you are looking for is not found.",
-        "button_label": "Back to Home",
-        "button_bg": "#000",
-        "button_fc": "#fff",
-        "button_bg_h": "#1773b0"
+        "button_label": "Back to Home"
       }
     }
   },

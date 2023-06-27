@@ -1,28 +1,88 @@
-<!-- /templates/customers/login.liquid -->
-
-<h2>Login</h2>
-{% form 'customer_login' %}
-
-{{ form.errors | default_errors }}
-
-<label for="customer_email">Email Address</label>
-<input type="email" name="customer[email]" />
-
-<label for="customer_password">Password</label>
-<input type="password" name="customer[password]" />
-
-<input type="submit" value="Sign In" />
-
-{% endform %}
-
-<h2>Forgot Password</h2>
-{% form 'recover_customer_password' %}
-
-{{ form.errors | default_errors }}
-
-<label for="customer_email">Email Address</label>
-<input type="email" name="email" />
-
-<input type="submit" value="Submit" />
-
-{% endform %}
+<div class="w-full container mx-auto mt-10 text-center" x-data="{loginForm: true, recoverForm: false }">
+  <div class="login" :class="{'hidden' : !loginForm}">
+    <h2 class="font-medium text-3xl my-8 md:my-16">Sign In</h2>
+    {% form 'customer_login', class: 'flex flex-col items-center justify-center w-full max-w-md mx-auto' %}
+      <div class="flex mb-3 flex-col w-full">
+        {% if form.errors %}
+          <div class="text-center">
+            <p class="text-red-500 font-medium">Please correct the following errors:</p>
+            <ul>
+              {% for error in form.errors %}
+                <li>
+                  {% if error == 'form' %}
+                    {{ form.errors.messages[error] }}
+                  {% else %}
+                    {{ form.errors.translated_fields[error] }} - {{ form.errors.messages[error] }}
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      </div>
+      <div class="flex mb-3">
+        <div class="px-3 md:w-1/2">
+          <input
+            type="email"
+            id="customer_email"
+            autocomplete="email"
+            name="customer[email]"
+            class="w-full border rounded-md focus:outline-none py-1 px-2"
+            placeholder="Email address"
+          >
+        </div>
+        <div class="px-3 md:w-1/2">
+          <input
+            type="password"
+            name="customer[password]"
+            placeholder="Password"
+            class="w-full border rounded-md focus:outline-none py-1 px-2"
+          >
+        </div>
+      </div>
+      <div class="flex mb-3 flex-col w-full">
+        <button type="submit" class="w-full text-white bg-gray-900 rounded-md py-3 hover:bg-gray-800">Sign In</button>
+      </div>
+    {% endform %}
+    <div class="w-full" x-on:click="loginForm =!loginForm; recoverForm = !recoverForm;">Forgot Password?</div>
+  </div>
+  <div class="recover hidden" :class="{'hidden' : !recoverForm}">
+    <h2 class="font-medium text-3xl my-8 md:my-16">Forgot Password</h2>
+    {% form 'recover_customer_password', class: 'flex flex-col items-center justify-center w-full max-w-md mx-auto' %}
+      <div class="flex mb-3 flex-col w-full">
+        {% if form.posted_successfully? %}
+          <div class="text-green-500 text-center">Thank you we will be in touch soon!</div>
+        {% elsif form.errors %}
+          <div class="text-center">
+            <p class="text-red-500 font-medium">Please correct the following errors:</p>
+            <ul>
+              {% for error in form.errors %}
+                <li>
+                  {% if error == 'form' %}
+                    {{ form.errors.messages[error] }}
+                  {% else %}
+                    {{ form.errors.translated_fields[error] }} - {{ form.errors.messages[error] }}
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      </div>
+      <div class="flex mb-3 w-full">
+        <div class="px-3 w-full">
+          <input
+            type="email"
+            name="email"
+            placeholder="Email address"
+            class="w-full border rounded-md focus:outline-none py-1 px-2"
+          >
+        </div>
+      </div>
+      <div class="flex mb-3 flex-col w-full">
+        <button type="submit" class="w-full text-white bg-gray-900 rounded-md py-3 hover:bg-gray-800">Submit</button>
+      </div>
+    {% endform %}
+    <div class="w-full" x-on:click="loginForm =!loginForm; recoverForm = !recoverForm;">Back to Login</div>
+  </div>
+</div>

@@ -17,13 +17,14 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.1/dist/cdn.min.js"></script>
   </head>
 
-  <body>
-    <main role="main" data-template="{{ template.name }}">
+  <body class="">
+    <main role="main" data-template="{{ template.name }}" class="flex flex-col min-h-screen">
       {% section 'header' %}
       {% unless template.name == 'index' or template.name == 'page' %}
         {% render 'breadcrumbs' %}
       {% endunless %}
       {{ content_for_layout }}
+      {% section 'footer' %}
     </main>
   </body>
 </html>

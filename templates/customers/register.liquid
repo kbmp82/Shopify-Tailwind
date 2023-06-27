@@ -1,21 +1,69 @@
-<!-- /templates/customers/register.liquid -->
-
-{% form 'create_customer' %}
-
-{{ form.errors | default_errors }}
-
-<label for="first_name">First Name</label>
-<input type="text" value="" name="customer[first_name]" size="30" />
-
-<label for="last_name">Last Name</label>
-<input type="text" value="" name="customer[last_name]" size="30" />
-
-<label for="email">Email Address</label>
-<input type="email" value="" name="customer[email]" size="30" />
-
-<label for="password">Password</label>
-<input type="password" value="" name="customer[password]" size="30" />
-
-<input type="submit" value="Create" />
-
-{% endform %}
+<div class="w-full container mx-auto mt-10 text-center">
+  <div class="register">
+    <h2 class="font-medium text-3xl my-8 md:my-16">Register</h2>
+    {% form 'create_customer', class: 'flex flex-col items-center justify-center w-full max-w-md mx-auto' %}
+      <div class="flex mb-3 flex-col w-full">
+        {% if form.errors %}
+          <div class="text-center">
+            <p class="text-red-500 font-medium">Please correct the following errors:</p>
+            <ul>
+              {% for error in form.errors %}
+                <li>
+                  {% if error == 'form' %}
+                    {{ form.errors.messages[error] }}
+                  {% else %}
+                    {{ form.errors.translated_fields[error] }} - {{ form.errors.messages[error] }}
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      </div>
+      <div class="flex flex-col mb-3 w-full gap-3">
+        <div class="px-3 w-full">
+          <input
+            type="text"
+            id="customer_first_name"
+            name="customer[first_name]"
+            class="w-full border rounded-md focus:outline-none py-1 px-2"
+            placeholder="First name"
+          >
+        </div>
+        <div class="px-3 w-full">
+          <input
+            type="text"
+            id="customer_last_name"
+            name="customer[last_name]"
+            class="w-full border rounded-md focus:outline-none py-1 px-2"
+            placeholder="Last name"
+          >
+        </div>
+        <div class="px-3 w-full">
+          <input
+            type="email"
+            id="customer_email"
+            autocomplete="email"
+            name="customer[email]"
+            class="w-full border rounded-md focus:outline-none py-1 px-2"
+            placeholder="Email address"
+          >
+        </div>
+        <div class="px-3 w-full">
+          <input
+            type="password"
+            name="customer[password]"
+            placeholder="Password"
+            autocomplete="new-password"
+            class="w-full border rounded-md focus:outline-none py-1 px-2"
+          >
+        </div>
+      </div>
+      <div class="flex mb-3 flex-col w-full">
+        <button type="submit" class="w-full text-white bg-gray-900 rounded-md py-3 hover:bg-gray-800">
+          Create Account
+        </button>
+      </div>
+    {% endform %}
+  </div>
+</div>

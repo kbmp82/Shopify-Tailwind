@@ -3,38 +3,38 @@
     "template": {
       "type": "template-article",
       "blocks": {
-        "title": {
+        "e168c981-4e46-41c6-b691-3bb950596f34": {
           "type": "title",
           "settings": {
           }
         },
-        "author": {
+        "69a89e58-b501-47cf-b0a8-cfcf6021369c": {
           "type": "author",
           "settings": {
           }
         },
-        "date": {
+        "3d86682a-79d5-490c-ba46-b6a291a06764": {
           "type": "date",
           "settings": {
           }
         },
-        "image": {
+        "ac2fbe13-257a-4cde-b7bd-3eabad3c5a80": {
           "type": "image",
           "settings": {
           }
         },
-        "content": {
+        "dff779d8-41b4-4af8-bd4e-5fc69bd21061": {
           "type": "content",
           "settings": {
           }
         }
       },
       "block_order": [
-        "title",
-        "author",
-        "date",
-        "image",
-        "content"
+        "e168c981-4e46-41c6-b691-3bb950596f34",
+        "69a89e58-b501-47cf-b0a8-cfcf6021369c",
+        "3d86682a-79d5-490c-ba46-b6a291a06764",
+        "ac2fbe13-257a-4cde-b7bd-3eabad3c5a80",
+        "dff779d8-41b4-4af8-bd4e-5fc69bd21061"
       ],
       "settings": {
         "set_max_width": true,

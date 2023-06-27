@@ -1,0 +1,14 @@
+.search-results.grid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+.search-results img {
+    height: 325px;
+}
+
+.no-results {
+    min-height: 20vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

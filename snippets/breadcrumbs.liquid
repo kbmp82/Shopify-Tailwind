@@ -23,6 +23,8 @@
         {% else %}
           <span class="text-sm" style="text-transform:capitalize">{{ blog.title }}</span>
         {% endif %}
+      {% else %}
+        <span class="capitalize">{{ template.name }}</span>
       {% endif %}
     </nav>
   </div>
