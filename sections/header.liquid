@@ -40,7 +40,7 @@
                   {%- if customer -%}
                     <li>
                       <a href="{{ routes.account_url }}" id="customer_login_link">
-                        {%- render : 'icon_user', type: "standard" -%}
+                        {%- render 'icon_user', type: "standard" -%}
                       </a>
                     </li>
                     <li>
@@ -131,3 +131,13 @@
   ]
 }
 {% endschema %}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: '{%- render : ''icon_user'', type: "standard" -%}'
+  to: '{%- render ''icon_user'', type: "standard" -%}'
+  position: 1747..1791
+{% endcomment %}

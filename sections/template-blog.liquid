@@ -1,7 +1,7 @@
 {% assign se_stts = section.settings %}
 {{ 'blog.css' | asset_url | stylesheet_tag }}
 <div class="container mx-auto px-5 md:px-0 py-10">
-  {% paginate blog.articles by {{ se_stts.max_posts }} %}
+  {% paginate blog.articles by nil %}
     <div class="flex justify-center mb-8">
       <h1 class="text-4xl md:text-6xl font-medium">{{ blog.title }}</h1>
     </div>
@@ -33,3 +33,13 @@
   ]
 }
 {% endschema %}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{% paginate blog.articles by {{ se_stts.max_posts }} %}"
+  to: "{% paginate blog.articles by nil %}"
+  position: 139..174
+{% endcomment %}

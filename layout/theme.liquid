@@ -7,7 +7,7 @@
     <meta name="description" content="{{ page_description | escape }}">
     <link rel="canonical" href="{{ canonical_url }}">
     <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
-    {% if (current_tags) or (template contains "collection" and collection.handle == "all") or (template contains "collection" and collection.handle == "new") %}
+    {% if current_tags or template contains "collection" and collection.handle == "all" or template contains "collection" and collection.handle == "new" %}
       <meta name="robots" content="noindex, follow">
     {% endif %}
     {{ content_for_header }}
@@ -28,3 +28,15 @@
     </main>
   </body>
 </html>
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: '{% if (current_tags) or (template contains "collection" and collection.handle
+    == "all") or (template contains "collection" and collection.handle == "new") %}'
+  to: '{% if current_tags or template contains "collection" and collection.handle
+    == "all" or template contains "collection" and collection.handle == "new" %}'
+  position: 381..532
+{% endcomment %}

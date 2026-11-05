@@ -65,7 +65,7 @@
             <div class="flex-1 border my-4 px-4 py-2 sm:px-6 sm:py-4 leading-relaxed">
               <div class="flex">
                 <div class="thumbnail pr-5 my-auto">
-                  {% render : 'icon_user', type: "round" %}
+                  {% render 'icon_user', type: "round" %}
                 </div>
                 <div class="comment">
                   <span class="comment-author">{{ article_comment.author }}</span>
@@ -225,3 +225,13 @@
   ]
 }
 {% endschema %}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: '{% render : ''icon_user'', type: "round" %}'
+  to: '{% render ''icon_user'', type: "round" %}'
+  position: 2576..2615
+{% endcomment %}
